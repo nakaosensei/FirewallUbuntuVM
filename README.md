@@ -50,7 +50,7 @@ Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será i
  <p align="center">Tabela 1 - Placas de rede </p>
 
 # Configuração das redes nas VM's
-Iremos configurar as redes de acordo com o cenário  apresentado na Figura 1, as redes são apresentadas na Tabela 2:
+Iremos configurar as redes de acordo com o cenário  apresentado na Figura 1, as redes são apresentadas na Tabela 2, na qual as máquinas da LAN estão na rede 172.16.1.0, da DMZ na rede 172.16.2.0 e da WAN na rede 172.16.3.0, nessa prática deixamos explícitos os nomes de algumas interfaces de rede que serão utilizadas nas regras do Firewall.
 | VM        | Rede | Ip |
 | ------------- |:-------------:|:-------------:| 
 | host1a (LAN)        | 172.16.1.0/24 | 172.16.1.1|
@@ -59,6 +59,76 @@ Iremos configurar as redes de acordo com o cenário  apresentado na Figura 1, as
 | host3a (WAN) | 172.16.3.0 e NAT (enp0s3) |172.16.3.1 e gerado por dhcp|
 | Firewall | 172.16.1.0 (enp0s9), 172.16.2.0 (enp0s10), 172.16.3.0 (enp0s3) | 172.16.1.254 (enp0s9), 172.16.2.254 (enp0s10), 172.16.3.254 (enp0s3) | 
  <p align="center">Tabela 2 - Redes das VM's </p>
+
+Para realizar as configurações, inicie todas as VM's e edite o arquivo /etc/netplan/00-installer-config.yaml, iremos passar pelas configurações de rede de cada VM.
+
+## Arquivo /etc/netplan/00-installer-config.yaml do host1a
+```bash
+network:
+  ethernets:
+    enp0s9:
+      dhcp4: no
+      addresses: [172.16.1.1/24]
+      gateway4: 172.16.1.254
+  version: 2
+```
+## Arquivo /etc/netplan/00-installer-config.yaml do host1b
+```bash
+  network:
+    ethernets:
+      enp0s9:
+        dhcp4: no
+        addresses: [172.16.1.2/24]
+        gateway4: 172.16.1.254
+    version: 2
+```
+## Arquivo /etc/netplan/00-installer-config.yaml do host2a
+```bash
+network:
+  ethernets:
+    enp0s9:
+      dhcp4: no
+      addresses: [172.16.2.3/24]
+      gateway4: 172.16.2.254
+  version: 2
+```
+## Arquivo /etc/netplan/00-installer-config.yaml do host3a
+```bash
+network:
+  ethernets:
+    enp0s3:
+      dhcp4: true
+    enp0s9:
+      dhcp4: no
+      addresses: [172.16.3.1/24]
+      gateway4: 172.16.3.254
+  version: 2
+```
+## Arquivo /etc/netplan/00-installer-config.yaml do Firewall
+```bash
+network:
+  ethernets:
+    enp0s3://WAN
+      dhcp4: false
+      addresses: [172.16.3.254/24]
+    enp0s9://LAN
+      dhcp4: false
+      addresses: [172.16.1.254/24]
+    enp0s10: //DMZ
+      dhcp4: false
+      addresses: [172.16.2.254/24]      
+  version: 2
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
