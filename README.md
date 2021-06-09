@@ -126,6 +126,7 @@ Agora ligaremos ligaremos o modo de roteamento para o firewall e para o host3a (
 net.ipv4.ip_forward=1
 ```
 
+## Configuração do host3a (DMZ)
 Agora vá até a VM do host3a (DMZ), observe como está a tabela de rotamento, usando o comando route -n:
 ```bash
 host3a@nakao:~$ route -n
@@ -152,7 +153,8 @@ E por fim, vamos dizer que todo pacote que sair da WAN para Internet será masca
 host3a@nakao:~$ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 ```
 
-
+# Configuração do Firewall
+Finalmente chegamos as configurações realizadas no Firewall
 
 
 
