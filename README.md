@@ -56,8 +56,8 @@ Iremos configurar as redes de acordo com o cenário  apresentado na Figura 1, as
 | host1a (LAN)        | 172.16.1.0/24 | 172.16.1.1|
 | host1b (LAN)     | 172.16.1.0/24     |  172.16.1.2|
 | host2a (DMZ) | 172.16.2.0/24      |172.16.2.1|
-| host3a (WAN) | 172.16.3.0 e NAT(interface enp0s3) |172.16.3.1 e gerado por dhcp|
-| Firewall | 172.16.1.0 (enp0s9), 172.16.2.0(enp0s10), 172.16.3.0(enp0s3) | 172.16.1.254 (enp0s9), 172.16.2.254(enp0s10), 172.16.3.254enp0s3) | 
+| host3a (WAN) | 172.16.3.0 e NAT (enp0s3) |172.16.3.1 e gerado por dhcp|
+| Firewall | 172.16.1.0 (enp0s9), 172.16.2.0 (enp0s10), 172.16.3.0 (enp0s3) | 172.16.1.254 (enp0s9), 172.16.2.254 (enp0s10), 172.16.3.254 (enp0s3) | 
  <p align="center">Tabela 2 - Redes das VM's </p>
 
 
