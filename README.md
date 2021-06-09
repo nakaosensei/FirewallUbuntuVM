@@ -39,7 +39,7 @@ Para poupar trabalho, iremos clonar essa primeira maquina virtual 4 vezes, se at
 Terminadas as clonagens, renomeie as VM's para: host1a, host1b, host2a, host3a e Firewall. Em seguida, iremos ativar as interfaces de rede do nós (tal qual na Figura 2), nas VM's LAN (host1a, host1b) e DMZ (host2a) habilite uma placa de rede interna, na VM da WAN (host3a) habilite uma placa de rede interna e uma placa de rede NAT, na VM do Firewall habilite três placas de rede interna.
 
 Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será intnet1, na máquina da DMZ (host2a) o nome será intnet2, na placa de rede interna da WAN (host3a) o nome será intnet3, por fim, na VM do Firewall nomeie a primeira placa de rede interna com a intnet1, a segunda com intnet2 e a terceira com a intnet3. A tabela 1 apresenta as redes internas das VM's. 
-
+<div align="center">
 | VM        | Redes Internas | 
 | ------------- |:-------------:| 
 | host1a (LAN)        | intnet1 |
@@ -47,8 +47,10 @@ Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será i
 | host2a (DMZ) | intnet2      |
 | host3a (WAN) | intnet3, NAT |
 | Firewall | intnet1, intnet2, intnet3 |    
+</div>
  <p align="center">Tabela 1 - Placas de rede </p>
 
+#Configuração das redes nas VM's
 
 
 
