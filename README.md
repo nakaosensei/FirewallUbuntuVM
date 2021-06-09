@@ -156,6 +156,8 @@ host3a@nakao:~$ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 # Configuração do Firewall
 Finalmente chegamos as configurações realizadas no Firewall, para isso criaremos um único arquivo executável que conterá todas políticas de segurança, abaixo segue o arquivo rules.sh, que contém
 as regras do firewall.
+
+## Arquivo rules.sh
 ```bash
 echo "Deletando e criando rota de saida para a WAN (host3a)"
 route del -net 0.0.0.0 gw 172.16.3.1 netmask 0.0.0.0 dev enp0s3
