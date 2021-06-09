@@ -120,11 +120,37 @@ network:
   version: 2
 ```
 
+## Tornando nós roteadores 
+Agora ligaremos ligaremos o modo de roteamento para o firewall e para o host3a (WAN), nessa configuração o host3a é quem possui uma interface com acesso à Internet, e ele que de fato irá ceder aos demais nós da rede. Para isso, no firewall e no host3a abra o arquivo /etc/sysctl.conf, e acrescente a linha abaixo:
+```bash
+net.ipv4.ip_forward=1
+```
 
-
-
-
-
+Agora vá até a VM do host3a (DMZ), observe como está a tabela de rotamento, usando o comando route -n:
+```bash
+host3a@nakao:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.16.3.254    0.0.0.0         UG    0      0        0 enp0s9
+0.0.0.0         10.0.2.2        0.0.0.0         UG    100    0        0 enp0s3
+10.0.2.0        0.0.0.0         255.255.255.0   U     0      0        0 enp0s3
+10.0.2.2        0.0.0.0         255.255.255.255 UH    100    0        0 enp0s3
+172.16.3.0      0.0.0.0         255.255.255.0   U     0      0        0 enp0s9
+```
+A interface que tem acesso à Internet no host3a é a enp0s3, a primeira regra define
+que os pacote destinados a 0.0.0.0 devem sair para o endereço do Firewall (172.16.3.254), essa regra impede o acesso a Internet, por esse motivo, remova-a com o comando:
+```bash
+host3a@nakao:~$ sudo route del -net 0.0.0.0 gw 172.16.3.254 netmask 0.0.0.0 dev enp0s9
+```
+Agora vamos acrescentar rotas para as redes LAN e DMZ para o host3a, usando os comandos:
+```
+host3a@nakao:~$ sudo ip route add 172.16.1.0/24 via 172.16.3.254
+host3a@nakao:~$ sudo ip route add 172.16.2.0/24 via 172.16.3.254
+```
+E por fim, vamos dizer que todo pacote que sair da WAN para Internet será mascarado (os pacotes do Firewall já virão mascarados, e serão mais uma vez nesse ponto).
+```
+host3a@nakao:~$ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+```
 
 
 
