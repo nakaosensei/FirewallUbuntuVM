@@ -194,7 +194,7 @@ iptables -A FORWARD -i enp0s9 -o enp0s10 -m state --state NEW,ESTABLISHED,RELATE
 iptables -A FORWARD -i enp0s10 -o enp0s9 -m state --state ESTABLISHED,RELATED -p tcp --dport 22 -j ACCEPT
 iptables -A FORWARD -i enp0s10 -m state --state ESTABLISHED,RELATED -p tcp --sport 22 -j ACCEPT
 
-echo "Permitindo que o host3(host2a) seja apenas servidor http ou dns"
+echo "Permitindo que o host2a (DMZ) seja apenas servidor http ou dns"
 iptables -A FORWARD -o enp0s10 -m state --state NEW,ESTABLISHED,RELATED -p tcp --dport 80 -j ACCEPT
 iptables -A FORWARD -i enp0s10 -m state --state ESTABLISHED,RELATED -p tcp --sport 80 -j ACCEPT
 iptables -A FORWARD -i enp0s10 -j DROP
@@ -210,12 +210,19 @@ echo "iptables -A FORWARD -j ACCEPT"
 iptables -A FORWARD -j ACCEPT
 ```
 
-
-
-
-
-
-
+# Testes no Firewall
+Iremos realizar os seguintes testes:
+* Teste se a LAN consegue acessar serviços na Internet. (resultado esperado: sim)
+* Teste se a LAN e o h3a conseguem acessar HTTP e DNS de h2a. (resultado esperado: sim)
+* Teste se o firewall consegue acessar serviços na Internet, teste principalmente HTTP e um FTP.(resultado esperado: sim)
+* Teste se host1a consegue acessar o firewall via ssh. (resultado esperado: sim)
+* Teste se host1b consegue acessar o firewall via ssh. (resultado esperado: não)
+* Teste se host2a consegue acessar o firewall via ssh. (resultado esperado: não)
+* Teste se host3a consegue acessar o firewall via ssh. (resultado esperado: não)
+* Teste se h1b consegue acessar h3 via ssh. (resultado esperado: sim)
+* Teste se h2a consegue acessar serviços na Internet. (resultado esperado: sim)
+* Teste se h2a consegue acessar h2 via HTTP. (resultado esperado: não)
+* Teste se h3a consegue acessar h1 via HTTP, via IP normal. (resultado esperado: não)
 
 
 
