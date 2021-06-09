@@ -3,7 +3,7 @@ Esse é um projeto de configuração de políticas de segurança de um Firewall 
 
 <figure>
   <img src="images/setup.png" alt="Cenário proposto" style="width:100%">
-  <figcaption>Cenário proposto</figcaption>
+  <figcaption align="center">Figura 1 - Cenário proposto</figcaption>
 </figure>
 <br>
 
