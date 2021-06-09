@@ -108,13 +108,13 @@ network:
 ```bash
 network:
   ethernets:
-    enp0s3://WAN
+    enp0s3:
       dhcp4: false
       addresses: [172.16.3.254/24]
-    enp0s9://LAN
+    enp0s9:
       dhcp4: false
       addresses: [172.16.1.254/24]
-    enp0s10: //DMZ
+    enp0s10: 
       dhcp4: false
       addresses: [172.16.2.254/24]      
   version: 2
