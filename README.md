@@ -246,7 +246,7 @@ Nesse teste, fizemos as máquinas da LAN e a máquina da WAN enviarem requisiç�
 </p>
 <br>
 <p>
-  <img src="images/teste2a.png" alt="Acesso http host2a" style="width:100%">
+  <img src="images/teste2b.png" alt="Acesso http host2a" style="width:100%">
   <p align="center">Figura 5 - Resultado LAN (host1a e host1b) e WAN (host3a) acessando DMZ (host2a) via HTTP </p>
 </p>
 <br>
