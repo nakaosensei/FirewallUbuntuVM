@@ -230,7 +230,7 @@ Iremos realizar os seguintes testes:
 * h2a consegue acessar h1b via HTTP. (resultado esperado: não)
 * h3a consegue acessar h1a via HTTP, via IP normal. (resultado esperado: não)
 
-## Teste 1: A LAN consegue acessar serviços na Internet (PASSOU)
+## Teste 1: A LAN consegue acessar serviços na Internet (OK)
 Nesse teste, fizemos as máquinas da LAN enviarem mensagens ICMP echo request para o ip do google (8.8.8.8), a Figura 3 apresenta o resultado bem sucedido.
 <p>
   <img src="images/teste1.png" alt="LAN acessando Internet" style="width:100%">
@@ -238,11 +238,16 @@ Nesse teste, fizemos as máquinas da LAN enviarem mensagens ICMP echo request pa
 </p>
 <br>
 
-## Teste 2: A LAN e o h3a conseguem acessar HTTP de host2a. (resultado esperado: sim)
+## Teste 2: A LAN e o h3a conseguem acessar HTTP de host2a. (OK)
 Nesse teste, fizemos as máquinas da LAN e a máquina da WAN enviarem requisições HTTP GET fazendo uso do software Lynx, a Figura 4 mostra a chamada dos comandos, e a Figura 5 mostra os resultados.
 <p>
   <img src="images/teste2a.png" alt="Acesso http host2a" style="width:100%">
-  <p align="center">Figura 3 - LAN (host1a e host1b) e WAN (host3a) acessando DMZ (host2a) via HTTP </p>
+  <p align="center">Figura 4 - LAN (host1a e host1b) e WAN (host3a) acessando DMZ (host2a) via HTTP </p>
+</p>
+<br>
+<p>
+  <img src="images/teste2a.png" alt="Acesso http host2a" style="width:100%">
+  <p align="center">Figura 5 - Resultado LAN (host1a e host1b) e WAN (host3a) acessando DMZ (host2a) via HTTP </p>
 </p>
 <br>
 
