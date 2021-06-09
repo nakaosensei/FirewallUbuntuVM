@@ -21,7 +21,7 @@ Feito isso, vá ao menu Rede e habilite uma placa de rede, selecione a opção R
 <br>
 
 
-Agora, execute a máquina virtual, defina o seu usuário, e execute os comandos:
+Agora abra mais uma vez o menu Configurações->Sistema, e deixe o disco rígido no topo da lista de sequência de boot. Finalmente ligue a máquina virtual, defina o seu usuário, e execute os comandos:
 ```bash
 sudo apt install nginx
 sudo apt install openssh-server
@@ -32,15 +32,22 @@ sudo apt install bind9
 sudo apt install proftpd
 sudo apt install telnetd
 ```
+Essas instalações serão utilizadas para testes nas políticas de segurança posteriormente definidas pelo Firewall.
 
 Para poupar trabalho, iremos clonar essa primeira maquina virtual 4 vezes, se atente as opções para gerar novos discos virtuais e novos endereços MAC para as placas de rede. Feche a VM carregada e realize as clonagens, basta clicar com o botão direito na VM e clonar (seguindo os menus).
 
 Terminadas as clonagens, renomeie as VM's para: host1a, host1b, host2a, host3a e Firewall. Em seguida, iremos ativar as interfaces de rede do nós (tal qual na Figura 2), nas VM's LAN (host1a, host1b) e DMZ (host2a) habilite uma placa de rede interna, na VM da WAN (host3a) habilite uma placa de rede interna e uma placa de rede NAT, na VM do Firewall habilite três placas de rede interna.
 
-Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será intnet1, na máquina da DMZ (host2a) o nome será intnet2, na placa de rede interna da WAN (host3a) o nome será intnet3, por fim, na VM do Firewall nomeie a primeira placa de rede interna com a intnet1, a segunda com intnet2 e a terceira com a intnet3. 
+Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será intnet1, na máquina da DMZ (host2a) o nome será intnet2, na placa de rede interna da WAN (host3a) o nome será intnet3, por fim, na VM do Firewall nomeie a primeira placa de rede interna com a intnet1, a segunda com intnet2 e a terceira com a intnet3. A tabela 1 apresenta as redes internas das VM's. 
 
-Mais adiante, serão 
-
+| VM        | Redes Internas | 
+| ------------- |:-------------:| 
+| host1a (LAN)        | intnet1 |
+| host1b (LAN)     | intnet1     |  
+| host2a (DMZ) | intnet2      |
+| host3a (WAN) | intnet3, NAT |
+| Firewall | intnet1, intnet2, intnet3 |    
+ <p align="center">Tabela 1 - Placas de rede </p>
 
 
 
