@@ -22,7 +22,7 @@ Feito isso, vá ao menu Rede e habilite uma placa de rede, selecione a opção R
 
 
 Agora, execute a máquina virtual, defina o seu usuário, e execute os comandos:
-<p>
+```bash
 sudo apt install nginx
 sudo apt install openssh-server
 sudo apt install lynx
@@ -31,7 +31,7 @@ sudo apt install iptables
 sudo apt install bind9
 sudo apt install proftpd
 sudo apt install telnetd
-<p>
+```
 
 Para poupar trabalho, iremos clonar essa primeira maquina virtual 4 vezes, se atente as opções para gerar novos discos virtuais e novos endereços MAC para as placas de rede. Feche a VM carregada e realize as clonagens, basta clicar com o botão direito na VM e clonar (seguindo os menus).
 
@@ -39,7 +39,7 @@ Terminadas as clonagens, renomeie as VM's para: host1a, host1b, host2a, host3a e
 
 Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será intnet1, na máquina da DMZ (host2a) o nome será intnet2, na placa de rede interna da WAN (host3a) o nome será intnet3, por fim, na VM do Firewall nomeie a primeira placa de rede interna com a intnet1, a segunda com intnet2 e a terceira com a intnet3. 
 
-
+Mais adiante, serão 
 
 
 
