@@ -1,5 +1,5 @@
 # Configurando um Firewall (políticas de segurança) em um ambiente virtualizado. 
-Esse é um projeto de configuração de políticas de segurança de  Firewall em 5 máquinas virtuais, foram utilizadas 5 VM's Ubuntu 18.04 (servidor), sendo 4 hosts e um roteador que contém as políticas de Firewall. A Figura 1 ilustra o cenário de rede a configurar, na qual são apresentadas as redes LAN, DMZ e WAN. As redes da LAN e DMZ estão atrás do Firewall, ou seja, todo tráfego que sair do Firewall deve ser mascarado através do uso de mascáramento NAT. O Host 4 tem acesso a internet e o compartilha com os demais dispositivos da rede. Também são apresentadas 7 políticas de segurança a serem implementadas.
+Esse é um projeto de configuração de políticas de segurança de  Firewall em um ambiente de virtualização, foram utilizadas 5 VM's Ubuntu 18.04 (servidor), sendo 4 hosts e um roteador que contém as políticas de Firewall. A Figura 1 ilustra o cenário de rede a configurar, na qual são apresentadas as redes LAN, DMZ e WAN. As redes da LAN e DMZ estão atrás do Firewall, ou seja, todo tráfego que sair do Firewall deve ser mascarado através do uso de mascáramento NAT. O Host 4 tem acesso a internet e o compartilha com os demais dispositivos da rede. Também são apresentadas 7 políticas de segurança a serem implementadas.
 
 <p>
   <img src="images/setup.png" alt="Cenário proposto" style="width:100%">
@@ -8,9 +8,9 @@ Esse é um projeto de configuração de políticas de segurança de  Firewall em
 <br>
 
 # Carregamento das VM's no virtualbox
-Faça o download da imagem do Ubuntu 18.04 (server), abra o Virtualbox, clique em "Novo", selecione uma quantidade de memória RAM, defina o tamanho do disco virtual e crie conclua a criação da VM. 
+Faça o download da imagem do Ubuntu 18.04 (server), abra o Virtualbox, clique em "Novo", nomeie a VM de host1a, selecione o tipo Linux, escolha a versão Ubuntu (64 bits), selecione uma quantidade de memória RAM, crie e defina o tamanho do disco virtual e conclua a criação inicial da VM. 
 
-Uma vez criada, aperte o botão direito do mouse na VM e selecione a opção configurações. Vá no menu Sistema, e deixe o disco óptico no topo da ordem de boot. Agora vá ao menu armazenamento, acrescente um disco na opção "Controladora:IDE", selecione o disco existente com o cursor do mouse, a direita aparecerá uma seção de atributos, nela haverá um ícone de um disco azul, clique com o botão direito nele e carregue a ISO do Ubuntu Server baixada.
+Uma vez criada, aperte o botão direito do mouse na VM e selecione a opção configurações. Vá no menu Sistema, e deixe o disco óptico no topo da ordem de boot. Agora vá ao menu armazenamento, acrescente um disco na opção "Controladora:IDE", selecione o disco existente com o cursor do mouse, a direita aparecerá uma seção de atributos, nela haverá um ícone de um disco azul, clique com o botão direito nele e carregue a ISO do Ubuntu Server.
 
 Feito isso, vá ao menu Rede e habilite uma placa de rede, selecione a opção Rede interna, e se atente ao nome da rede em que essa placa está conectada. Para se obter o resultado esperado, máquinas na mesma rede devem estar no mesmo nome de rede. A Figura 2 ilustra essa configuração.
 
@@ -154,7 +154,47 @@ host3a@nakao:~$ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 ```
 
 # Configuração do Firewall
-Finalmente chegamos as configurações realizadas no Firewall
+Finalmente chegamos as configurações realizadas no Firewall, para isso criaremos um único arquivo executável que conterá todas políticas de segurança, abaixo segue o arquivo rules.sh, que contém
+as regras do firewall.
+```bash
+echo "Deletando e criando rota de saida para a WAN (host3a)"
+route del -net 0.0.0.0 gw 172.16.3.1 netmask 0.0.0.0 dev enp0s3
+ip route add 0.0.0.0/0 via 172.16.3.1
+
+echo "Zerando Firewall..."
+iptables -t nat -F
+iptables -F
+
+echo "Realizando mascaramento para tudo que sair pela enp0s3"
+iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+
+echo "Permitindo que o host 1 acesse o firewall via ssh"
+iptables -A INPUT -p tcp --dport 22 -i enp0s9 -s 172.16.1.1 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -i enp0s8 -j ACCEPT
+
+echo "Bloqueando o trafego que vai diretamente para o firewall"
+iptables -A INPUT -j DROP
+
+echo "Permitindo que maquinas da DMZ(net2) possam ser acessados via SSH pelas maquinas da LAN(net1)"
+iptables -A FORWARD -i enp0s9 -o enp0s10 -m state --state NEW,ESTABLISHED,RELATED -p tcp --dport 22 -j ACCEPT
+iptables -A FORWARD -i enp0s10 -o enp0s9 -m state --state ESTABLISHED,RELATED -p tcp --dport 22 -j ACCEPT
+iptables -A FORWARD -i enp0s10 -m state --state ESTABLISHED,RELATED -p tcp --sport 22 -j ACCEPT
+
+echo "Permitindo que o host3(host2a) seja apenas servidor http ou dns"
+iptables -A FORWARD -o enp0s10 -m state --state NEW,ESTABLISHED,RELATED -p tcp --dport 80 -j ACCEPT
+iptables -A FORWARD -i enp0s10 -m state --state ESTABLISHED,RELATED -p tcp --sport 80 -j ACCEPT
+iptables -A FORWARD -i enp0s10 -j DROP
+iptables -A FORWARD -o enp0s10 -j DROP
+
+echo "Permitindo que a LAN seja apenas cliente, nao servidor"
+iptables -A FORWARD -o enp0s9 -m state --state NEW,INVALID -j DROP
+iptables -A FORWARD -i enp0s9 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -o enp0s9 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+echo "Permitindo a passagem de trafego encaminhado pelo firewall"
+echo "iptables -A FORWARD -j ACCEPT"
+iptables -A FORWARD -j ACCEPT
+```
 
 
 
