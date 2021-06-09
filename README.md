@@ -120,7 +120,7 @@ network:
   version: 2
 ```
 
-## Tornando nós roteadores 
+## Ligando roteamento no host3a e no firewall
 Agora ligaremos ligaremos o modo de roteamento para o firewall e para o host3a (WAN), nessa configuração o host3a é quem possui uma interface com acesso à Internet, e ele que de fato irá ceder aos demais nós da rede. Para isso, no firewall e no host3a abra o arquivo /etc/sysctl.conf, e acrescente a linha abaixo:
 ```bash
 net.ipv4.ip_forward=1
@@ -219,10 +219,10 @@ Iremos realizar os seguintes testes:
 * host1b consegue acessar o firewall via ssh. (resultado esperado: não)
 * host2a consegue acessar o firewall via ssh. (resultado esperado: não)
 * host3a consegue acessar o firewall via ssh. (resultado esperado: não)
-* h1b consegue acessar h3 via ssh. (resultado esperado: sim)
+* h1b consegue acessar h2a via ssh. (resultado esperado: sim)
 * h2a consegue acessar serviços na Internet. (resultado esperado: sim)
-* h2a consegue acessar h2 via HTTP. (resultado esperado: não)
-* h3a consegue acessar h1 via HTTP, via IP normal. (resultado esperado: não)
+* h2a consegue acessar h1b via HTTP. (resultado esperado: não)
+* h3a consegue acessar h1a via HTTP, via IP normal. (resultado esperado: não)
 
 
 
