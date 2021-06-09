@@ -49,10 +49,16 @@ Nas máquinas da LAN (host1a e host1b), o nome associada a placa de rede será i
 | Firewall | intnet1, intnet2, intnet3 |    
  <p align="center">Tabela 1 - Placas de rede </p>
 
-#Configuração das redes nas VM's
-Inicie todas as VM's, 
-
-
+# Configuração das redes nas VM's
+Iremos configurar as redes de acordo com o cenário  apresentado na Figura 1, as redes são apresentadas na Tabela 2:
+| VM        | Rede | Ip |
+| ------------- |:-------------:|:-------------:| 
+| host1a (LAN)        | 172.16.1.0/24 | 172.16.1.1|
+| host1b (LAN)     | 172.16.1.0/24     |  172.16.1.2|
+| host2a (DMZ) | 172.16.2.0/24      |172.16.2.1|
+| host3a (WAN) | 172.16.3.0 e NAT(interface enp0s3) |172.16.3.1 e gerado por dhcp|
+| Firewall | 172.16.1.0 (enp0s9), 172.16.2.0(enp0s10), 172.16.3.0(enp0s3) | 172.16.1.254 (enp0s9), 172.16.2.254(enp0s10), 172.16.3.254enp0s3) | 
+ <p align="center">Tabela 2 - Redes das VM's </p>
 
 
 
