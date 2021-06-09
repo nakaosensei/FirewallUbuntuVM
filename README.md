@@ -210,19 +210,41 @@ echo "iptables -A FORWARD -j ACCEPT"
 iptables -A FORWARD -j ACCEPT
 ```
 
+Para executarmos o script, devemos torná-lo um executável e executá-lo, fazendo:
+```
+firewall@nakao:~$ sudo chmod a+x ./rules.sh
+firewall@nakao:~$ sudo ./rule
+```
+
 # Testes no Firewall
 Iremos realizar os seguintes testes:
 * A LAN consegue acessar serviços na Internet. (resultado esperado: sim)
-* A LAN e o h3a conseguem acessar HTTP e DNS de h2a. (resultado esperado: sim)
+* A LAN e o h3a conseguem acessar HTTP de h2a. (resultado esperado: sim)
 * o firewall consegue acessar serviços na Internet, teste principalmente HTTP e um FTP.(resultado esperado: sim)
 * host1a consegue acessar o firewall via ssh. (resultado esperado: sim)
 * host1b consegue acessar o firewall via ssh. (resultado esperado: não)
 * host2a consegue acessar o firewall via ssh. (resultado esperado: não)
 * host3a consegue acessar o firewall via ssh. (resultado esperado: não)
-* h1b consegue acessar h2a via ssh. (resultado esperado: sim)
+* h1b consegue acessar host2a via ssh. (resultado esperado: sim)
 * h2a consegue acessar serviços na Internet. (resultado esperado: sim)
 * h2a consegue acessar h1b via HTTP. (resultado esperado: não)
 * h3a consegue acessar h1a via HTTP, via IP normal. (resultado esperado: não)
+
+## Teste 1: A LAN consegue acessar serviços na Internet (PASSOU)
+Nesse teste, fizemos as máquinas da LAN enviarem mensagens ICMP echo request para o ip do google (8.8.8.8), a Figura 3 apresenta o resultado bem sucedido.
+<p>
+  <img src="images/teste1.png" alt="LAN acessando Internet" style="width:100%">
+  <p align="center">Figura 3 - LAN (host1a e host1b) acessando Internet </p>
+</p>
+<br>
+
+## Teste 2: A LAN e o h3a conseguem acessar HTTP de host2a. (resultado esperado: sim)
+Nesse teste, fizemos as máquinas da LAN e a máquina da WAN enviarem requisições HTTP GET fazendo uso do software Lynx, a Figura 4 mostra a chamada dos comandos, e a Figura 5 mostra os resultados.
+<p>
+  <img src="images/teste2a.png" alt="Acesso http host2a" style="width:100%">
+  <p align="center">Figura 3 - LAN (host1a e host1b) e WAN (host3a) acessando DMZ (host2a) via HTTP </p>
+</p>
+<br>
 
 
 
