@@ -23,7 +23,7 @@ Feito isso, vá ao menu Rede e habilite uma placa de rede, selecione a opção R
 
 Agora abra mais uma vez o menu Configurações->Sistema, e deixe o disco rígido no topo da lista de sequência de boot. Finalmente ligue a máquina virtual, defina o seu usuário, e execute os comandos:
 ```bash
-sudo apt install nginx
+sudo apt install apache2
 sudo apt install openssh-server
 sudo apt install lynx
 sudo apt install ftp
@@ -126,6 +126,9 @@ Agora ligaremos ligaremos o modo de roteamento para o firewall e para o host3a (
 net.ipv4.ip_forward=1
 ```
 
+## Alterando o index.html dos nós
+Nos testes, precisaremos testar o acessos HTTP nos nós, convém mudar a página padrão dos hosts para facilitar, em cada nó, altere o arquivo /var/www/index.html, deixando uma mensagem de "Bem vindo ao host X" ou "Bem vindo ao firewall". O apache estará rodando em todas as máquinas executadas, dessa forma em todo acesso http bem sucedido será possível visualizar claramente se ele foi barrado ou não.
+
 ## Configuração do host3a (DMZ)
 Agora vá até a VM do host3a (DMZ), observe como está a tabela de rotamento, usando o comando route -n:
 ```bash
@@ -153,9 +156,18 @@ E por fim, vamos dizer que todo pacote que sair da WAN para Internet será masca
 host3a@nakao:~$ sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 ```
 
+
 # Configuração do Firewall
 Finalmente chegamos as configurações realizadas no Firewall, para isso criaremos um único arquivo executável que conterá todas políticas de segurança, abaixo segue o arquivo rules.sh, que contém
-as regras do firewall.
+as regras do firewall. Inicialmente, acrescentamos uma rota para que o Firewall saiba que caso surja um endereço que não é das interfaces existentes, seja redirecionado para a WAN (172.16.3.1), e depois de fato iniciamos as regras, sendo:
+* Zerar as tabelas do Firewall
+* Máscarar todo tráfego que sair da LAN, DMZ ou do pŕoprio Firewall
+* Permitir que o host1a acesse o Firewall via ssh
+* Impedir acessos diretos ao Firewall
+* Permitir tráfego encaminhado para o Firewall
+* Permitir que as máquinas da DMZ sejam acessadas somente por máquinas da LAN via SSH
+* Permitir que o host2a (DMZ) seja somente servidor http ou dns
+* Impedir que as LAN's atuem como servidores
 
 ## Arquivo rules.sh
 ```bash
