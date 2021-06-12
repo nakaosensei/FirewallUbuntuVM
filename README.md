@@ -213,7 +213,7 @@ iptables -A FORWARD -j ACCEPT
 Para executarmos o script, devemos torná-lo um executável e executá-lo, fazendo:
 ```
 firewall@nakao:~$ sudo chmod a+x ./rules.sh
-firewall@nakao:~$ sudo ./rule
+firewall@nakao:~$ sudo ./rules.sh
 ```
 
 # Testes no Firewall
@@ -251,6 +251,7 @@ Nesse teste, fizemos as máquinas da LAN e a máquina da WAN enviarem requisiç�
 </p>
 <br>
 
+## Teste 3: O firewall consegue acessar serviços na Internet, teste principalmente HTTP e um FTP.(OK)
 
 
 
