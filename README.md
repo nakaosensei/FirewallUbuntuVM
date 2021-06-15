@@ -164,7 +164,6 @@ iptables -t nat -A POSTROUTING -o enp0s8 -j MASQUERADE
 
 echo "Permitindo acesso ssh pelo host1a"
 iptables -A INPUT -p tcp --dport 22 -i enp0s9 -s 172.16.1.1 -j ACCEPT
-iptables -A INPUT -p tcp --dport 22 -i enp0s3 -j ACCEPT
 iptables -A INPUT -j DROP
 
 echo "Permitindo que o Firewall se comunique com a LAN via output"
