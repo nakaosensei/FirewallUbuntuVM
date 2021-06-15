@@ -11,7 +11,7 @@ ssh host1a@192.168.56.105
 ssh host1b@192.168.57.3
 ssh host2a@192.168.58.3
 ssh host3a@192.168.59.3
-ssh firewall@192.168.60.3
+ssh firewall@192.168.60.4
 
 Primeiramente, em cada máquina virtual, vamos realizar
  as configurações de endereçamento no arquivo:
